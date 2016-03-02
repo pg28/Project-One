@@ -1,0 +1,107 @@
+/*
+ * header.h
+ *
+ *  Created on: Mar 2, 2016
+ *      Author: jreifman1
+ */
+
+#ifndef HEADER_H_
+#define HEADER_H_
+
+
+
+#include <string>
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+const float TAX_RATE = 0.0825;
+const float REBATE_VAL = 0.035;
+
+struct Date
+{
+	int day;
+	int month;
+	int year;
+};
+
+
+
+
+class Member
+{
+public:
+	virtual void NewMember(string member, int id, Date end);
+	string GetName() const;
+	int MembershipNumber() const;
+	Date Expires() const;
+	float TotalPurchases() const;
+
+	virtual void AddPurchase(float val);
+	void ExtendMember();
+	Member();
+	Member(string member, int id, Date end);
+protected:
+	string name;
+	int memberNum;
+	Date expires;
+	float purchases;
+};
+
+
+
+class Executive : public Member
+{
+public:
+	void NewMember(string member, int id, Date end);
+	float RebateVal();
+	bool IssueRebate();
+	void AddPurchase(float val);
+	Executive(string n, int id, Date end);
+private:
+	float sumRebate;
+};
+
+struct Product
+{
+	string name;
+	float price;
+	Product *next;
+};
+
+
+
+struct Sale
+{
+	Sale *prev;
+	int customer;
+	Product item;
+	int qty;
+	Sale *next;
+};
+
+
+
+class SalesDay
+{
+public:
+	Date GetDate();
+	Sale operator[](int i);
+	float TotRevenue();
+	int NumRegMem();
+	int NumExecMem();
+private:
+	SalesDay *prev;
+	Date thisDay;
+	Sale *head;
+	float revenue;
+	int regular;
+	int executive;
+	SalesDay *next;
+};
+
+
+
+
+
+#endif /* HEADER_H_ */
