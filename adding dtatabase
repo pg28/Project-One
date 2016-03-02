@@ -1,0 +1,46 @@
+#include "header.h"
+
+int main()
+{
+	ifstream inFile;
+	Product *head;
+
+	head = NULL;
+
+	inFile.open("inventory.txt");
+
+	Product *temp;
+
+	while(inFile)
+	{
+		temp = new Product;
+
+		getline(inFile, temp->name);
+		inFile >> temp->price;
+		inFile.ignore(10000, '\n');
+		temp->next = NULL;
+
+
+		if(head != NULL)
+		{
+			temp->next = head;
+		}
+
+		head = temp;
+		temp = NULL;
+
+	}
+
+	inFile.close();
+
+	temp = head;
+
+	while(temp != NULL)
+	{
+		cout << temp->name;
+		cout << endl;
+		cout << temp->price;
+		cout << endl << endl;
+		temp = temp->next;
+	}
+}
